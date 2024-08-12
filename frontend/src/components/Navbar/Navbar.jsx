@@ -4,7 +4,7 @@ import "./navbar.css";
 import { assets } from "../../assets/assets";
 import { Link } from "react-router-dom";
 
-export const Navbar = () => {
+export const Navbar = ({ setShowLogin }) => {
   const [menu, setMenu] = useState("home");
   return (
     <div className="navbar">
@@ -45,7 +45,7 @@ export const Navbar = () => {
           <img src={assets.cart_icon} alt="" />
           <div className="dot"></div>
         </div>
-        <button>sign in</button>
+        <button onClick={() => setShowLogin(true)}>sign in</button>
       </div>
     </div>
   );
