@@ -18,6 +18,19 @@ const Orders = ({ url }) => {
       toast.error("Something went wrong");
     }
   };
+  //orders status update
+  const statusHandler = async (e, orderId) => {
+    const response = await axios.post(url + "/api/order/status", {
+      orderId,
+      status: e.target.value,
+    });
+    if (response.data.success) {
+      await fetchAllOrders();
+      toast.success("Order status updated");
+    } else {
+      toast.error("Something went wrong");
+    }
+  };
 
   useEffect(() => {
     fetchAllOrders();
@@ -39,7 +52,33 @@ const Orders = ({ url }) => {
                   }
                 })}
               </p>
+              <p className="order-item-name">
+                {order.address.firstName + "   " + order.address.lastName}
+              </p>
+              <div className="order-item-address">
+                <p>{order.address.street + ", "}</p>
+                <p>
+                  {order.address.city +
+                    ", " +
+                    order.address.state +
+                    ", " +
+                    order.address.country +
+                    ",  " +
+                    order.address.zipcode}
+                </p>
+              </div>
+              <p className="order-item-phone">{order.address.phone}</p>
             </div>
+            <p>Items: {order.items.length}</p>
+            <p>Ksh {order.amount}</p>
+            <select
+              onChange={(e) => statusHandler(e, order._id)}
+              value={order.status}
+            >
+              <option value="Food Processing">Food Processing</option>
+              <option value="Out for Delivery">Out for Delivery</option>
+              <option value="Delivered">Delivered</option>
+            </select>
           </div>
         ))}
       </div>
